@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
+import nltk
 from nltk.tokenize import TweetTokenizer
 from nltk.stem import WordNetLemmatizer
 from nltk import pos_tag
@@ -16,7 +17,7 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score
 from imblearn.over_sampling import SMOTE
 from imblearn import pipeline
-
+nltk.download('averaged_perceptron_tagger')
 
 header = st.container()
 dataset = st.container()
@@ -88,8 +89,8 @@ with model_training:
         return comment
 
     rf_pipe = pipeline.Pipeline(steps=[('pre', TfidfVectorizer(tokenizer=comment_cleaner, max_features=1200)),
-                                        ('smote', SMOTE(random_state=42)),
-                                        ('rf', RandomForestClassifier(n_estimators=n_estimators,max_depth=max_depth,max_features=4,
+                                       ('smote', SMOTE(random_state=42)),
+                                       ('rf', RandomForestClassifier(n_estimators=n_estimators,max_depth=max_depth,max_features=4,
                                                        min_samples_leaf=1,min_samples_split=2))])
     rf_pipe.fit(X_train, y_train)
     y_pred = rf_pipe.predict(X_test)
@@ -97,3 +98,5 @@ with model_training:
     disp_col.write(rf_pipe.score(X_train, y_train))
     disp_col.markdown('Test Score')
     disp_col.write(accuracy_score(y_test, y_pred))
+
+
