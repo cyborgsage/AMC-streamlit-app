@@ -18,6 +18,7 @@ from sklearn.metrics import accuracy_score
 from imblearn.over_sampling import SMOTE
 from imblearn import pipeline
 nltk.download('averaged_perceptron_tagger')
+nltk.download('wordnet')
 
 header = st.container()
 dataset = st.container()
